@@ -6,6 +6,7 @@ import ResMenuShimmer from "./ResMenuShimmer";
 import ResCategory from "./ResCategory";
 import { useDispatch } from "react-redux";
 import { addItem } from "../util/cartSlice";
+
 const ResMenu = () => {
   const { resId } = useParams();
   const resInfo = useResMenu(resId);
@@ -56,13 +57,13 @@ const ResMenu = () => {
             className={`p-6 ${
               cloudinaryImageId
                 ? "absolute bottom-0 text-white"
-                : "bg-gradient-to-r from-pink-500 to-purple-600 text-white"
+                : "bg-gradient-to-r from-blue-600 to-indigo-700 text-white"
             }`}
           >
             <h1 className="text-3xl font-bold">{name}</h1>
             <p
               className={`mt-2 ${
-                cloudinaryImageId ? "text-gray-200" : "text-pink-100"
+                cloudinaryImageId ? "text-gray-200" : "text-indigo-100"
               } font-medium`}
             >
               {cuisines?.join(", ")} - {costForTwoMessage}
@@ -74,7 +75,7 @@ const ResMenu = () => {
           <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-7 w-7 mr-2 text-pink-500"
+              className="h-7 w-7 mr-2 text-indigo-600"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -109,13 +110,13 @@ const ResMenu = () => {
                 (item) => (
                   <div
                     key={item?.card?.info?.id}
-                    className="py-4 flex justify-between items-center hover:bg-pink-50 transition-colors px-2 rounded-lg"
+                    className="py-4 flex justify-between items-center hover:bg-gray-100 transition-colors px-2 rounded-lg"
                   >
                     <div className="flex-1">
                       <h3 className="text-lg font-semibold text-gray-800">
                         {item?.card?.info?.name}
                       </h3>
-                      <p className="text-pink-600 font-medium">
+                      <p className="text-indigo-600 font-medium">
                         ₹
                         {item?.card?.info?.price / 100 ||
                           item?.card?.info?.defaultPrice / 100}
@@ -137,7 +138,7 @@ const ResMenu = () => {
                           />
                         </div>
                         <button
-                          className="absolute bottom-2 right-2 bg-white text-green-600 p-1 rounded shadow-md text-xs font-medium border border-gray-200"
+                          className="absolute bottom-2 right-2 bg-white text-indigo-600 p-1 rounded shadow-md text-xs font-medium border border-gray-200 hover:bg-indigo-50"
                           onClick={() => handleAddItem(item)}
                         >
                           ADD

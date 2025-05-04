@@ -1,15 +1,23 @@
 import { useSelector, useDispatch } from "react-redux";
 import { CDN_URL } from "../util/constants";
-import { removeItem, clearCart } from "../util/cartSlice";
+import { addItem, removeItem, clearCart } from "../util/cartSlice";
 import { Link } from "react-router";
 
 const Cart = () => {
+
   const cartItems = useSelector((store) => store.cart.items);
   const dispatch = useDispatch();
 
-  const handleRemoveItem = (item) => {
-    dispatch(removeItem(item));
+  const handleAddItem = (item) => {
+    //dispatch(addItem(item));
+    dispatch(addItem({ card: { info: item } }));
   };
+
+  const handleRemoveItem = (item) => {
+    //dispatch(removeItem(item));
+    dispatch(removeItem({ card: { info: item } }));
+  };
+
 
   const handleClearCart = () => {
     dispatch(clearCart());
@@ -20,7 +28,7 @@ const Cart = () => {
       .reduce(
         (total, item) =>
           total +
-          (item?.card?.info?.price || item?.card?.info?.defaultPrice) / 100,
+          ((item?.price || item?.defaultPrice) * item.quantity) / 100,
         0
       )
       .toFixed(2);
@@ -31,12 +39,12 @@ const Cart = () => {
       <div className="max-w-4xl mx-auto px-4">
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
           {/* Header section */}
-          <div className="bg-gradient-to-r from-pink-50 to-pink-100 p-6 border-b border-gray-100">
+          <div className="bg-gradient-to-r from-indigo-50 to-indigo-100 p-6 border-b border-gray-100">
             <div className="flex justify-between items-center">
               <h1 className="text-2xl font-bold text-gray-800 flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-7 w-7 mr-2 text-pink-500"
+                  className="h-7 w-7 mr-2 text-indigo-600"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -50,7 +58,7 @@ const Cart = () => {
                 </svg>
                 <span>Your Cart</span>
                 {cartItems.length > 0 && (
-                  <span className="ml-2 bg-pink-500 text-white text-sm py-1 px-3 rounded-full">
+                  <span className="ml-2 mt-1 bg-indigo-600 text-white text-sm py-1 px-3 rounded-full">
                     {cartItems.length}
                   </span>
                 )}
@@ -84,10 +92,10 @@ const Cart = () => {
           <div className="p-6">
             {cartItems.length === 0 ? (
               <div className="text-center py-16 flex flex-col items-center">
-                <div className="bg-pink-50 p-6 rounded-full mb-4">
+                <div className="bg-indigo-50 p-6 rounded-full mb-4">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-16 w-16 text-pink-400"
+                    className="h-16 w-16 text-indigo-400"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -107,7 +115,7 @@ const Cart = () => {
                   Looks like you haven't added anything to your cart yet
                 </p>
                 <Link to="/">
-                  <button className="bg-gradient-to-r from-pink-500 to-pink-600 text-white py-3 px-8 rounded-xl hover:from-pink-600 hover:to-pink-700 transition-all duration-200 shadow-md flex items-center font-medium">
+                  <button className="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white py-3 px-8 rounded-xl hover:from-indigo-600 hover:to-indigo-700 transition-all duration-200 shadow-md flex items-center font-medium">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-5 w-5 mr-2"
@@ -131,56 +139,56 @@ const Cart = () => {
                 <div className="space-y-4">
                   {cartItems.map((item) => (
                     <div
-                      key={item?.card?.info?.id}
-                      className="p-4 flex justify-between items-center bg-white border border-gray-100 rounded-xl hover:border-pink-200 hover:shadow-md transition-all duration-200"
+                      key={item?.id}
+                      className="p-4 flex justify-between items-center bg-white border border-gray-100 rounded-xl hover:border-indigo-200 hover:shadow-md transition-all duration-200"
                     >
                       <div className="flex-1 pr-4">
                         <h3 className="text-lg font-semibold text-gray-800 mb-1">
-                          {item?.card?.info?.name}
+                          {item?.name}
                         </h3>
-                        <p className="text-pink-600 font-medium text-lg">
+                        {/* Updated Price Styling */}
+                        <p className="text-lg font-semibold text-black">
                           ₹
                           {(
-                            item?.card?.info?.price / 100 ||
-                            item?.card?.info?.defaultPrice / 100
-                          ).toFixed(2)}
+                            (item?.price / 100 ||
+                            item?.defaultPrice / 100 
+                          )* item.quantity).toFixed(2)}
                         </p>
-                        {item?.card?.info?.description && (
+                        {item?.description && (
                           <p className="text-sm text-gray-500 mt-1 line-clamp-2">
-                            {item?.card?.info?.description}
+                            {item?.description}
                           </p>
                         )}
                       </div>
 
-                      {item?.card?.info?.imageId && (
+                      {item?.imageId && (
                         <div className="flex-shrink-0 relative">
                           <div className="h-24 w-24 rounded-lg overflow-hidden shadow-md">
                             <img
-                              src={`${CDN_URL}${item?.card?.info?.imageId}`}
-                              alt={item?.card?.info?.name}
+                              src={`${CDN_URL}${item?.imageId}`}
+                              alt={item?.name}
                               className="h-full w-full object-cover"
                             />
                           </div>
-                          <button
-                            className="absolute -bottom-2 right-2 bg-white text-red-500 p-1.5 rounded-lg shadow-md text-xs font-medium flex items-center border border-gray-200 hover:bg-red-50 transition-colors"
-                            onClick={() => handleRemoveItem(item)}
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-3.5 w-3.5 mr-1"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6"
-                              />
-                            </svg>
-                            REMOVE
-                          </button>
+                          
+                            <div className="absolute bottom-1 right-2 bg-white text-green-600 p-1 rounded shadow-md text-xs font-medium border border-gray-200 flex items-center space-x-2">
+                              <button
+                                onClick={() => handleRemoveItem(item)}
+                                className="text-red-600 px-2"
+                              >
+                                -
+                              </button>
+                              <span className="text-black">
+                                {item?.quantity}
+                              </span>
+                              <button
+                                onClick={() => handleAddItem(item)}
+                                className="text-green-600 px-2"
+                              >
+                                +
+                              </button>
+                            </div>
+                          
                         </div>
                       )}
                     </div>

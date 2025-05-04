@@ -32,14 +32,12 @@ const Header = () => {
               <span>Status:</span>
               <span className={`flex h-2 w-2 relative`}>
                 <span
-                  className={`absolute inline-flex h-full w-full rounded-full ${
-                    onlineStatus ? "bg-green-400" : "bg-red-400"
-                  } opacity-75 animate-ping`}
+                  className={`absolute inline-flex h-full w-full rounded-full ${onlineStatus ? "bg-green-400" : "bg-red-400"
+                    } opacity-75 animate-ping`}
                 ></span>
                 <span
-                  className={`relative inline-flex rounded-full h-2 w-2 ${
-                    onlineStatus ? "bg-green-500" : "bg-red-500"
-                  }`}
+                  className={`relative inline-flex rounded-full h-2 w-2 ${onlineStatus ? "bg-green-500" : "bg-red-500"
+                    }`}
                 ></span>
               </span>
               <span className="text-xs">
@@ -62,7 +60,7 @@ const Header = () => {
               </li>
             ))}
 
-            <li>
+            <li className="relative group"> {/* Added group class for hover */}
               <Link
                 to="/cart"
                 className="px-4 py-2 flex items-center gap-2 text-gray-200 font-medium bg-indigo-900 transition-all duration-200 rounded-md border border-indigo-600/40 shadow-md hover:shadow-indigo-700/30 hover:shadow-md hover:-translate-y-0.5"
@@ -85,6 +83,13 @@ const Header = () => {
                   {cartItems.length}
                 </span>
               </Link>
+              
+              {/* Tooltip showing when cart is empty */}
+              {cartItems.length === 0 && (
+                <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-max bg-indigo-800 text-white text-xs px-3 py-1 rounded shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                  Your cart is empty!
+                </div>
+              )}
             </li>
           </ul>
         </nav>

@@ -17,8 +17,8 @@ const ResCard = ({ resData, showDiscountBanner = false }) => {
           />
 
           {showDiscountBanner && discountInfo && (
-            <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-2 text-center">
-              <span className="font-semibold">{discountInfo.header}</span>
+            <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-2 text-center font-bold">
+              <span>{discountInfo.header}</span>
               {discountInfo.subHeader && <span> {discountInfo.subHeader}</span>}
             </div>
           )}
@@ -69,7 +69,7 @@ const ResCard = ({ resData, showDiscountBanner = false }) => {
             </p>
           </div>
 
-          <div className="mt-3 pt-3 border-t border-gray-100">
+          <div className="mt-3 pt-3 border-t border-gray-200">
             <div className="flex justify-between items-center">
               <div className="flex items-center">
                 <svg
